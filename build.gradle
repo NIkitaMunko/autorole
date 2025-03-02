@@ -18,7 +18,9 @@ repositories {
 }
 
 dependencies {
-compileOnly "io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT"
+    compileOnly "net.luckperms:api:5.4"
+    compileOnly 'net.luckperms:api:5.4'
 }
 
 def targetJavaVersion = 17
@@ -47,3 +49,10 @@ processResources {
         expand props
     }
 }
+
+tasks.register('copyJar', Copy) {
+    from("$buildDir/libs/${project.name}-${version}.jar")
+    into('D:\\minecraftServer\\plugins')
+}
+
+build.finalizedBy(tasks.named('copyJar'))

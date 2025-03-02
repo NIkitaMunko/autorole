@@ -6,12 +6,12 @@ public final class Autorole extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        this.getServer().getPluginManager().registerEvents(new Listeners(this), this);
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
 }
