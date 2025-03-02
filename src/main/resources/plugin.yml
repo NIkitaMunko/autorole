@@ -1,0 +1,6 @@
+name: autorole
+version: '${version}'
+main: hgc.autorole.Autorole
+api-version: '1.19'
+author: hgc
+commands:
