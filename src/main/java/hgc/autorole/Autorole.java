@@ -6,8 +6,7 @@ public final class Autorole extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.getServer().getPluginManager().registerEvents(new Listeners(this), this);
-
+        new ConfigManager(this);
     }
 
     @Override
