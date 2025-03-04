@@ -28,8 +28,11 @@ public class PlayerQuit implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        User user = luckPerms.getUserManager().getUser(player.getUniqueId());
+        setDefaultPlayer(player);
+    }
 
+    public void setDefaultPlayer(Player player) {
+        User user = luckPerms.getUserManager().getUser(player.getUniqueId());
         if (user != null && user.getPrimaryGroup().equalsIgnoreCase(groupInJoin)) {
             user.data().remove(Node.builder("group.meteor").build());
             user.data().add(Node.builder("group.player").build());

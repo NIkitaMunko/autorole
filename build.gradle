@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'hgc'
-version = '0.0.2'
+version = '0.0.3'
 
 repositories {
     mavenCentral()
@@ -50,9 +50,13 @@ processResources {
     }
 }
 
-//tasks.register('copyJar', Copy) {
-//    from('C:\\Users\\Nikita\\IdeaProjects\\autorole\\build\\libs\\autorole-0.0.2.jar')
-//    into('D:\\minecraftServer\\plugins')
-//}
-//
-//build.finalizedBy(tasks.named('copyJar'))
+tasks.register('copyJar', Copy) {
+    from('C:\\Users\\Nikita\\IdeaProjects\\autorole\\build\\libs\\autorole-0.0.2.jar')
+    into('D:\\minecraftServer\\plugins')
+
+    // Убираем отслеживание состояния для задачи
+    outputs.upToDateWhen { false }
+}
+
+build.finalizedBy(tasks.named('copyJar'))
+

@@ -1,7 +1,9 @@
 package hgc.autorole;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConfigManager {
@@ -36,6 +38,12 @@ public class ConfigManager {
         else playerJoin.color = ChatColor.valueOf(config.getString("color", ChatColor.YELLOW.name()).toUpperCase());
 
         plugin.saveConfig();
+    }
+
+    public void onDisable() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            playerQuit.setDefaultPlayer(player);
+        }
     }
 
 }
