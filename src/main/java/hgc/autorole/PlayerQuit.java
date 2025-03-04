@@ -35,9 +35,9 @@ public class PlayerQuit implements Listener {
         User user = luckPerms.getUserManager().getUser(player.getUniqueId());
         if (user != null && user.getPrimaryGroup().equalsIgnoreCase(groupInJoin)) {
             user.data().remove(Node.builder("group.meteor").build());
-            user.data().add(Node.builder("group.player").build());
+            user.data().add(Node.builder("group.players").build());
             luckPerms.getUserManager().saveUser(user);
-            plugin.getLogger().info("Player " + player.getName() + " was moved from '" + groupInJoin + "' to 'player' group on quit.");
+            plugin.getLogger().info("Player " + player.getName() + " was moved from '" + groupInJoin + "' to 'players' group on quit.");
         }
     }
 }

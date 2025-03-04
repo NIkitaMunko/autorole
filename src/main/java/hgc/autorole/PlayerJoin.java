@@ -134,7 +134,7 @@ public class PlayerJoin implements Listener {
         }
 
         String primaryGroup = user.getPrimaryGroup();
-        if (primaryGroup.equalsIgnoreCase("default") || primaryGroup.equalsIgnoreCase("player")) {
+        if (primaryGroup.equalsIgnoreCase("default") || primaryGroup.equalsIgnoreCase("players")) {
             plugin.getLogger().info(player.getName() + " is in group " + primaryGroup + ". Changing to meteor...");
             user.data().clear();
             InheritanceNode newGroup = InheritanceNode.builder(groupInJoin).build();
