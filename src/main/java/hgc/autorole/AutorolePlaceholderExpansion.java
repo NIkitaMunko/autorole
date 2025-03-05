@@ -5,6 +5,7 @@ import me.clip.placeholderapi.expansion.Relational;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -65,7 +66,7 @@ public class AutorolePlaceholderExpansion extends PlaceholderExpansion implement
                 // Логирование результата
                 plugin.getLogger().info("Uses Launcher: " + usesLauncher + " for player: " + player.getName());
 
-                return usesLauncher ? "§a⚡" : "§c⚡";
+                return usesLauncher ? ChatColor.GREEN + "⚡" : ChatColor.RED + "§c⚡";
             }
         }
         // Логирование на случай, если игрок не онлайн или параметр не 'check'
