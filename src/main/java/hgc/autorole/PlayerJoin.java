@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +25,7 @@ import java.util.Set;
 
 public class PlayerJoin implements Listener {
 
+    private final PlayerQuit playerQuit;
     private final JavaPlugin plugin;
     private final LuckPerms luckPerms;
 
@@ -32,20 +33,18 @@ public class PlayerJoin implements Listener {
     public String textWhenJoin = "%s uses CosmoplexNewLauncher.";
     public ChatColor color = ChatColor.YELLOW;
 
-    public PlayerJoin(JavaPlugin plugin) {
+    public PlayerJoin(JavaPlugin plugin, LuckPerms luckPerms, PlayerQuit playerQuit) {
         this.plugin = plugin;
-
-        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) this.luckPerms = provider.getProvider();
-        else throw new IllegalStateException("LuckPerms API is not available!");
+        this.luckPerms = luckPerms;
+        this.playerQuit = playerQuit;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String playerName = player.getName();
-//        Path logPath = Paths.get("D:", "CosmoplexNewLauncher", "logs", "latest.log");
-        Path logPath = Paths.get("/root", "CosmoplexNewLauncher", "logs", "latest.log");
+        Path logPath = Paths.get("D:", "CosmoplexNewLauncher", "logs", "latest.log");
+//        Path logPath = Paths.get("/root", "CosmoplexNewLauncher", "logs", "latest.log");
 
         try {
             plugin.getLogger().info("Attempting to access log file at: " + logPath);
@@ -79,9 +78,13 @@ public class PlayerJoin implements Listener {
 
                         for (Player pl : Bukkit.getOnlinePlayers()) {
                             if (isCosmoplex) pl.sendMessage(color + String.format(textWhenJoin, playerName));
-//                            else pl.sendMessage(playerName + " uses the standard launcher.");
                         }
-                        if (isCosmoplex) playerSetGroup(player);
+                        if (isCosmoplex) {
+                            playerSetGroup(player);
+                            addToDataBase(player.getName());
+                        } else {
+                            playerQuit.removeFromDatabase(playerName);
+                        }
                     }
                 } else
                     plugin.getLogger().info("No read permissions for the file at: " + logPath);
@@ -120,6 +123,28 @@ public class PlayerJoin implements Listener {
         }
     }
 
+
+    private void addToDataBase(String playerName) {
+        // Папка плагина (на одном уровне с конфигом)
+        File dataFile = new File(plugin.getDataFolder(), "players.txt");
+
+        try {
+            // Создаём файл, если его нет
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
+            }
+
+            // Добавляем ник в файл с новой строки
+            try (FileWriter writer = new FileWriter(dataFile, true)) {
+                writer.write(playerName + System.lineSeparator());
+            }
+
+            plugin.getLogger().info("Player " + playerName + " added to database (players.txt).");
+        } catch (IOException e) {
+            plugin.getLogger().severe("Failed to save player " + playerName + " to players.txt: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public void playerSetGroup(Player player)   {
         if (luckPerms == null) {

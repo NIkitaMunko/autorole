@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'hgc'
-version = '0.0.3'
+version = '0.0.4'
 
 repositories {
     mavenCentral()
@@ -15,12 +15,16 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        url = 'https://repo.extendedclip.com/releases/'
+    }
 }
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT"
     compileOnly "net.luckperms:api:5.4"
     compileOnly 'net.luckperms:api:5.4'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
 }
 
 def targetJavaVersion = 17
@@ -51,11 +55,8 @@ processResources {
 }
 
 tasks.register('copyJar', Copy) {
-    from('C:\\Users\\Nikita\\IdeaProjects\\autorole\\build\\libs\\autorole-0.0.2.jar')
+    from("$buildDir/libs/${project.name}-${version}.jar")
     into('D:\\minecraftServer\\plugins')
-
-    // Убираем отслеживание состояния для задачи
-    outputs.upToDateWhen { false }
 }
 
 build.finalizedBy(tasks.named('copyJar'))
