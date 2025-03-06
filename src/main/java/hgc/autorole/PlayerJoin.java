@@ -43,8 +43,8 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String playerName = player.getName();
-        Path logPath = Paths.get("D:", "CosmoplexNewLauncher", "logs", "latest.log");
-//        Path logPath = Paths.get("/root", "CosmoplexNewLauncher", "logs", "latest.log");
+//        Path logPath = Paths.get("D:", "CosmoplexNewLauncher", "logs", "latest.log");
+        Path logPath = Paths.get("/root", "CosmoplexNewLauncher", "logs", "latest.log");
 
         try {
             plugin.getLogger().info("Attempting to access log file at: " + logPath);
