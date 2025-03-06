@@ -56,7 +56,7 @@ public class ConfigManager {
         if (plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             plugin.getLogger().info("registering placeholder");
 
-            placeholderExpansion = new AutorolePlaceholderExpansion(plugin, luckPerms);
+            placeholderExpansion = new AutorolePlaceholderExpansion(plugin);
             placeholderExpansion.register();
 
         } else {
